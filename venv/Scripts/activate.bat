@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
 set VIRTUAL_ENV=C:\Users\varun\Desktop\uni\Clipboard_Manager\venv
+=======
+set VIRTUAL_ENV=C:\Users\varun\Desktop\clipboardmanager\venv
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
 
 if not defined PROMPT set PROMPT=$P$G
 
