@@ -7,12 +7,40 @@ import re
 import datetime
 import pyperclip
 import keyboard
+<<<<<<< HEAD
+import pystray
+from PIL import Image,ImageTk
+from pystray import MenuItem as item
+
+
+valid_identifiers = [str(i) for i in range(10)] + [chr(i) for i in range(97, 123)]
+
+def create_image():
+    # Create an image for the icon
+    image = Image.open("cert.jpeg")
+    return image
+
+def on_clicked(icon, item):
+    # Action on click (e.g., restore the window or quit)
+    icon.stop()
+
+def setup_system_tray():
+    icon_image = create_image()
+    menu = pystray.Menu(pystray.MenuItem('Quit', on_clicked))
+    icon = pystray.Icon("test_icon", icon_image, "Your App", menu)
+    icon.run()
+=======
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
 
 def update_dropdown(*args):
     global clipboard_slots
     filtered_slots = [slot for slot, content in clipboard_slots.items() if content] 
     dropdown['values'] = filtered_slots  # Update dropdown values
     dropdown.set('')
+<<<<<<< HEAD
+
+=======
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
 def update_dropdown_values():
     global clipboard_slots
     # Update dropdown values but don't clear the selection
@@ -26,6 +54,21 @@ def on_combobox_select(event):
     search_var.set(selected_slot)
     paste_from_dropdown()
 
+<<<<<<< HEAD
+def load_config(filename='shortcuts_config.json'):
+    # Provide a default configuration structure
+    default_config = {"copy_shortcuts": {}, "paste_shortcuts": {}, "cut_shortcuts": {}}
+    try:
+        with open(filename, 'r') as file:
+            config = json.load(file)
+        # Ensure all keys are present in the loaded config
+        for key in default_config:
+            config.setdefault(key, default_config[key])
+        return config
+    except FileNotFoundError:
+        # Return default config if file does not exist
+        return default_config
+=======
 
 def load_config(filename='shortcuts_config.json'):
     try:
@@ -33,6 +76,7 @@ def load_config(filename='shortcuts_config.json'):
             return json.load(file)
     except FileNotFoundError:
         return {"copy_shortcuts": {}, "paste_shortcuts": {}}
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
 
 def save_config(config, filename='shortcuts_config.json'):
     with open(filename, 'w') as file:
@@ -146,13 +190,33 @@ def display_copied_texts():
 
 
 def handle_copy(identifier):
+<<<<<<< HEAD
+    print(f"Copy command triggered with identifier {identifier}")
+=======
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
     global clipboard_slots
     clipboard_slots[identifier] = pyperclip.paste()
     log_action(f"Copied to slot '{identifier}': {clipboard_slots[identifier]}")
     display_copied_texts()
     update_dropdown()  # Ensure this is called to reflect changes
 
+<<<<<<< HEAD
+def handle_cut(identifier):
+    print(f"Cut command triggered with identifier {identifier}")
+    global clipboard_slots
+    clipboard_slots[identifier] = pyperclip.paste()
+    log_action(f"Cut to slot '{identifier}': {clipboard_slots[identifier]}")
+    # Clearing the clipboard to simulate a cut operation
+    pyperclip.copy('')  
+    display_copied_texts()
+    update_dropdown()  # Ensure this is called to reflect changes
+
+
 def handle_paste(identifier):
+    print(f"Paste command triggered with identifier {identifier}")
+=======
+def handle_paste(identifier):
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
     log_action(f"Attempt to paste from slot '{identifier}'")
     text = clipboard_slots.get(identifier, '')
     if text:
@@ -192,12 +256,19 @@ def paste_from_dropdown():
         handle_paste(slot)
 
 def setup_shortcuts():
+<<<<<<< HEAD
+    for identifier in valid_identifiers:
+        keyboard.add_hotkey(f'ctrl+c+{identifier}', lambda i=identifier: handle_copy(i), suppress=True)
+        keyboard.add_hotkey(f'ctrl+alt+v+{identifier}', lambda i=identifier: handle_paste(i), suppress=True)
+        keyboard.add_hotkey(f'ctrl+x+{identifier}', lambda i=identifier: handle_cut(i), suppress=True)
+=======
     valid_identifiers = [str(i) for i in range(10)] + [chr(i) for i in range(97, 123)]
     for identifier in valid_identifiers:
         keyboard.add_hotkey(f'ctrl+c+{identifier}', lambda i=identifier: handle_copy(i), suppress=True)
         keyboard.add_hotkey(f'ctrl+alt+shift+{identifier}', lambda i=identifier: handle_paste(i), suppress=True)
 
 
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
 
 def setup_gui():
     global root, frame, copied_texts_frame, log_frame, log_text, search_bar_frame, search_var, dropdown
@@ -259,4 +330,17 @@ if __name__ == "__main__":  # Correct this line
     # Initialize clipboard_slots with content from config
     clipboard_slots = {key: "" for key in config['copy_shortcuts'].keys()}
     clipboard_slots.update({key: "" for key in config['paste_shortcuts'].keys()})
+<<<<<<< HEAD
+    clipboard_slots.update({key: "" for key in config['cut_shortcuts'].keys()})
+
+    for identifier in valid_identifiers:
+        # Assuming your config file has a "cut_shortcuts" section
+        if f'cut+{identifier}' not in config['cut_shortcuts']:
+            config['cut_shortcuts'][f'cut+{identifier}'] = ''
+
     setup_gui()
+    setup_system_tray()
+
+=======
+    setup_gui()
+>>>>>>> ee0aacbff898ec8a7d843c37ced4081a75525d99
